@@ -17,6 +17,10 @@ linux查看tcp的状态命令：
 5. nslookup:用于解析域名，一般用来检测本机的DNS设置是否配置正确。
 
 ## 状态机
+客户端的状图迁移图 CLOSED -- 发送SYN请求报文--> SYN_SENT -- 接收SYNACK&发送ACK --> ESTABLISHED -- 发送FIN请求报文 --> FIN_WAIT1 -- 接收ACK --> FIN_WAIT2 -- 接收FIN报文&发送ACK --> TIME_WAIT -- 等待2MSL --> CLOSED
+
+服务器的状态迁移图 CLOSED -- 创建套接字，监听 --> LISTEN -- 接收SYN请求&回复SYNACK --> SYN_RCVD -- 收到ACK --> ESTABLISHED -- 接收FIN&发送ACK --> CLOSE_WAIT -- 发送FIN --> LAST_ACK -- 接收ACK --> CLOSED
+
 ### LISTENING 侦听来自远方的TCP端口的连接请求
   首先服务端需要打开一个socket进行监听，状态为LISTEN。
   有提供某种服务才会处于LISTENING状态，TCP状态变化就是某个端口的状态变化，提供一个服务就打开一个端口，例如：提供www服务默认开的是80端口，提供ftp服务默认的端口为21，当提供的服务没有被连接时就处于LISTENING状态。FTP服务启动后首先处于侦听（LISTENING）状态。处于侦听LISTENING状态时，该端口是开放的，等待连接，但还没有被连接。就像你房子的门已经敞开的，但还没有人进来。
