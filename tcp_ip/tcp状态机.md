@@ -17,6 +17,18 @@ linux查看tcp的状态命令：
 5. nslookup:用于解析域名，一般用来检测本机的DNS设置是否配置正确。
 
 ## 状态机
+* LISTEN：侦听来自远方的TCP端口的连接请求
+* SYN-SENT：再发送连接请求后等待匹配的连接请求（客户端）
+* SYN-RECEIVED：再收到和发送一个连接请求后等待对方对连接请求的确认（服务器）
+* ESTABLISHED：代表一个打开的连接
+* FIN-WAIT-1：等待远程TCP连接中断请求，或先前的连接中断请求的确认
+* FIN-WAIT-2：从远程TCP等待连接中断请求
+* CLOSE-WAIT：等待从本地用户发来的连接中断请求
+* CLOSING：等待远程TCP对连接中断的确认
+* LAST-ACK：等待原来的发向远程TCP的连接中断请求的确认
+* TIME-WAIT：等待足够的时间以确保远程TCP接收到连接中断请求的确认
+* CLOSED：没有任何连接状态
+
 客户端的状图迁移图 CLOSED -- 发送SYN请求报文--> SYN_SENT -- 接收SYNACK&发送ACK --> ESTABLISHED -- 发送FIN请求报文 --> FIN_WAIT1 -- 接收ACK --> FIN_WAIT2 -- 接收FIN报文&发送ACK --> TIME_WAIT -- 等待2MSL --> CLOSED
 
 服务器的状态迁移图 CLOSED -- 创建套接字，监听 --> LISTEN -- 接收SYN请求&回复SYNACK --> SYN_RCVD -- 收到ACK --> ESTABLISHED -- 接收FIN&发送ACK --> CLOSE_WAIT -- 发送FIN --> LAST_ACK -- 接收ACK --> CLOSED
